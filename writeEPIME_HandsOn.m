@@ -31,6 +31,7 @@ function SeqParamOut = writeEPIRS_HandsOn(SeqParam,sys,Show)
 %       SliceProfile    - Plot the slice profile (default: 1)
 %       KspaceTimeCourse- Plot the k-space time course (default: 1)
 %       KspaceCoverage  - Plot the k-space coverage (default: 1)
+%       Sound  - plays the sequence sound (default: 0)
 %
 % Outputs:
 %   SeqParamOut - Updated SeqParam structure with any missing fields filled with default values.
@@ -118,6 +119,23 @@ if nargin < 3
     Show.SliceProfile = 1;
     Show.KspaceTimeCourse = 1;
     Show.KspaceCoverage = 1;
+    Show.Sound = 0;
+    else
+    if ~isfield(Show, 'SequenceDiagram')
+        Show.SequenceDiagram = 1;
+    end
+    if ~isfield(Show, 'SliceProfile')
+        Show.SliceProfile = 1;
+    end
+    if ~isfield(Show, 'KspaceTimeCourse')
+        Show.KspaceTimeCourse = 1;
+    end
+    if ~isfield(Show, 'KspaceCoverage')
+        Show.KspaceCoverage = 1;
+    end
+    if ~isfield(Show, 'Sound')
+        Show.Sound = 0;
+    end
 end
 
 
@@ -400,10 +418,8 @@ seq.write('epi_rs.seq');
 
 % seq.install('siemens');
 
-% seq.sound(); % simulate the seq's tone
-
-%% another pretty plot option e.g. for publications
-
-%seq.paperPlot('blockRange',[1 41]);
+if Show.Sound == 1;
+    seq.sound(); % simulate the seq's tone
+end;
 
 
